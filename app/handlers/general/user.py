@@ -7,11 +7,12 @@ from database.crud.general.user import get_user, create_user
 from database.crud.general.tool import active_tools
 import utils.texts.general as general_texts
 import utils.keyboards.general as general_keyboards
+from handlers.neuro.user import get_message, yandexgpt_menu
 
 
 router = Router(name="General-User")
 
-
+@router.message(F.text == "Меню")
 @router.message(CommandStart())
 async def start(message: Message):
     telegram_user = message.from_user
@@ -70,6 +71,27 @@ async def about_points(callback: CallbackQuery):
     await callback.answer()
     
     await callback.message.answer(text=general_texts.points_info())
+    
+    
+@router.callback_query(F.data.startswith("tool_"))
+async def pick_tool(callback: CallbackQuery, state: FSMContext):
+    await callback.answer()
+    
+    tool_id = int(callback.data.split("_")[-1])
+    
+    match tool_id:
+        case 1:
+            await yandexgpt_menu(callback, state)
+
+
+@router.message()
+async def all_messages(message: Message, state: FSMContext):
+    tool = (await state.get_data()).get("active_tool")
+    
+    if tool == "Нейросеть":
+        await get_message(message, state)
+
+
 
 
 

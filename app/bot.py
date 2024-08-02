@@ -28,7 +28,7 @@ storage = RedisStorage.from_url(f"redis://{settings.REDIS_USER}:{settings.REDIS_
 
 dispatcher = Dispatcher(storage=storage)
 dispatcher.message.middleware(UserUpdateMiddleware())
-dispatcher.callback_query.middleware(UserUpdateMiddleware)
+dispatcher.callback_query.middleware(UserUpdateMiddleware())
 
 
 

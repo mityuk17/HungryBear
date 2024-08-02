@@ -35,6 +35,7 @@ class User(Base, table=True):
     auto_renewal: bool = Field(default=True)
     last_activity: datetime = Field(default=datetime.now())
     created_at: datetime = Field(default=datetime.now())
+    gpt_chat_mode: bool = Field(default=False)
     
     def active_subscription(self) -> str:
         if not(self.subsctiption_endtime):

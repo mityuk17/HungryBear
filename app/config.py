@@ -14,6 +14,9 @@ class Settings(BaseSettings):
     REDIS_PASSWORD: str
     REDIS_USER_PASSWORD: str
     REDIS_PORT: int
+    YANDEX_API_TOKEN: str
+    YANDEX_CATALOG_ID: str
+    YANDEX_GPT_MODEL: str
 
     class Config:
         env_file = "./.env"
